@@ -1,0 +1,734 @@
+/*
+ * Tema YSD para decks derivados de lições canônicas.
+ *
+ * Origem: presentations/templates/theme/ysd-deck.css
+ * Distribuição: tools/sync_deck_theme.rb copia este arquivo para
+ *               presentations/decks/<microtema>/assets/theme/ysd-deck.css
+ * Não editar a cópia dentro do deck: ela é artefato derivado.
+ *
+ * Regras herdadas de docs/authoring-standards.md:
+ * - uma mensagem principal por tela;
+ * - convenção de cor estável entre decks (proa, popa, bordos, meia-nau);
+ * - movimento só com função causal, temporal ou espacial;
+ * - toda animação desligada sob prefers-reduced-motion;
+ * - informação exclusivamente visual sempre com alternativa textual.
+ */
+
+/* ---------------------------------------------------------------- tokens */
+
+:root {
+  color-scheme: dark;
+
+  /* Profundidade: do fundo do mar até a superfície iluminada. */
+  --abyss: #05090d;
+  --deep: #0a1017;
+  --surface: #101823;
+  --surface-raised: #16212e;
+
+  /* Vidro: camadas translúcidas empilhadas sobre o fundo. */
+  --glass: rgba(24, 36, 50, 0.58);
+  --glass-strong: rgba(28, 42, 58, 0.78);
+  --glass-line: rgba(150, 190, 215, 0.16);
+  --glass-line-strong: rgba(150, 200, 225, 0.32);
+  --glass-blur: 18px;
+
+  --text: #f2f7fa;
+  --muted: #a8bcca;
+  --faint: #7d94a3;
+
+  /* Convenção semântica fixa do projeto. Não trocar entre decks. */
+  --proa: #4ed7e8;
+  --popa: #f6a84b;
+  --boreste: #4ade80;
+  --bombordo: #fb7185;
+  --meia-nau: #fcd34d;
+
+  --accent: var(--proa);
+  --ok: var(--boreste);
+  --warn: var(--meia-nau);
+  --err: var(--bombordo);
+  --focus: #ffffff;
+
+  /* Tipografia fluida: legível no celular sem virar cartaz no desktop. */
+  --step--1: clamp(0.82rem, 0.78rem + 0.2vw, 0.94rem);
+  --step-0: clamp(1rem, 0.94rem + 0.3vw, 1.15rem);
+  --step-1: clamp(1.15rem, 1.05rem + 0.55vw, 1.45rem);
+  --step-2: clamp(1.45rem, 1.2rem + 1.2vw, 2.1rem);
+  --step-3: clamp(1.85rem, 1.4rem + 2.2vw, 3rem);
+  --step-4: clamp(2.2rem, 1.5rem + 3.4vw, 4rem);
+
+  --radius: 18px;
+  --radius-sm: 11px;
+  --pad-slide: clamp(20px, 5vw, 76px);
+  --shadow: 0 24px 60px -30px rgba(0, 0, 0, 0.85);
+  --shadow-lift: 0 30px 70px -28px rgba(0, 0, 0, 0.9);
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+* { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  scroll-snap-type: y mandatory;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100svh;
+  background: var(--abyss);
+  color: var(--text);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: var(--step-0);
+  line-height: 1.55;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* --------------------------------------------------- fundo em camadas */
+
+/* Três camadas fixas: gradiente de profundidade, halo de luz e retícula.
+   Nenhuma carrega informação: existem para separar o vidro do fundo. */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(120% 90% at 50% -10%, #17304a 0%, transparent 55%),
+    radial-gradient(90% 70% at 8% 100%, #0d2b33 0%, transparent 60%),
+    linear-gradient(180deg, var(--deep) 0%, var(--abyss) 100%);
+}
+
+.backdrop::before {
+  content: "";
+  position: absolute;
+  inset: -30% -10%;
+  background:
+    radial-gradient(40% 30% at 30% 30%, rgba(78, 215, 232, 0.13), transparent 70%),
+    radial-gradient(35% 28% at 72% 62%, rgba(74, 222, 128, 0.09), transparent 70%);
+  filter: blur(28px);
+  animation: drift 34s var(--ease) infinite alternate;
+}
+
+.backdrop::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.16;
+  background-image:
+    linear-gradient(rgba(150, 200, 225, 0.09) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(150, 200, 225, 0.09) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(120% 80% at 50% 20%, #000 20%, transparent 78%);
+}
+
+@keyframes drift {
+  from { transform: translate3d(-3%, -2%, 0) scale(1); }
+  to { transform: translate3d(4%, 3%, 0) scale(1.09); }
+}
+
+/* --------------------------------------------------------- cromo fixo */
+
+.progress {
+  position: fixed;
+  inset: 0 0 auto;
+  height: 3px;
+  z-index: 30;
+  background: rgba(150, 200, 225, 0.12);
+}
+
+.progress span {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, var(--proa), var(--boreste));
+  box-shadow: 0 0 14px rgba(78, 215, 232, 0.6);
+  transition: width 0.35s var(--ease);
+}
+
+.deck-bar {
+  position: fixed;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 7px 8px 7px 15px;
+  border-radius: 999px;
+  background: var(--glass-strong);
+  border: 1px solid var(--glass-line);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  box-shadow: var(--shadow);
+  max-width: calc(100vw - 24px);
+}
+
+.deck-bar .deck-id {
+  font-size: var(--step--1);
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+/* Trilha de progresso: cada ponto é um slide navegável. */
+.dots {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.dots button {
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(168, 188, 202, 0.34);
+  cursor: pointer;
+  transition: transform 0.25s var(--ease), background 0.25s var(--ease), width 0.25s var(--ease);
+}
+
+.dots button:hover { background: var(--muted); }
+
+.dots button[aria-current="true"] {
+  width: 22px;
+  border-radius: 999px;
+  background: var(--proa);
+  box-shadow: 0 0 12px rgba(78, 215, 232, 0.7);
+}
+
+.counter {
+  font-variant-numeric: tabular-nums;
+  font-size: var(--step--1);
+  color: var(--faint);
+  padding-right: 8px;
+  white-space: nowrap;
+}
+
+.controls {
+  position: fixed;
+  right: clamp(12px, 2.5vw, 26px);
+  bottom: clamp(12px, 2.5vw, 26px);
+  z-index: 30;
+  display: flex;
+  gap: 8px;
+}
+
+.icon-btn {
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--glass-line);
+  border-radius: 50%;
+  background: var(--glass-strong);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  color: var(--text);
+  cursor: pointer;
+  transition: border-color 0.2s var(--ease), color 0.2s var(--ease), transform 0.2s var(--ease);
+}
+
+.icon-btn:hover {
+  border-color: var(--proa);
+  color: var(--proa);
+  transform: translateY(-2px);
+}
+
+button { font: inherit; }
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ------------------------------------------------------------- slides */
+
+.slide {
+  position: relative;
+  min-height: 100svh;
+  scroll-snap-align: start;
+  display: grid;
+  align-items: center;
+  padding: clamp(74px, 11vh, 118px) var(--pad-slide) clamp(90px, 13vh, 130px);
+}
+
+.content {
+  width: min(1180px, 100%);
+  margin: 0 auto;
+  display: grid;
+  gap: clamp(16px, 2.2vw, 26px);
+}
+
+/* Entrada por rolagem: o conteúdo assenta quando o slide passa a ser o atual.
+   É transição de foco de atenção, não decoração.
+
+   O efeito só existe depois que o runtime marca `deck-ready` no documento.
+   Sem JavaScript — ou se o script falhar — o deck continua legível por inteiro,
+   porque conteúdo didático não pode depender de animação para existir. */
+.deck-ready .slide [data-reveal] {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.55s var(--ease), transform 0.55s var(--ease);
+}
+
+.deck-ready .slide.is-current [data-reveal] {
+  opacity: 1;
+  transform: none;
+}
+
+.deck-ready .slide.is-current [data-reveal="2"] { transition-delay: 0.09s; }
+.deck-ready .slide.is-current [data-reveal="3"] { transition-delay: 0.18s; }
+.deck-ready .slide.is-current [data-reveal="4"] { transition-delay: 0.27s; }
+
+.grid-2 {
+  grid-template-columns: minmax(0, 1fr) minmax(340px, 1.08fr);
+  gap: clamp(22px, 3.2vw, 46px);
+  align-items: center;
+}
+
+/* ------------------------------------------------------- tipografia */
+
+h1, h2, h3, p { margin-top: 0; }
+
+h1 {
+  font-size: var(--step-4);
+  line-height: 1.02;
+  letter-spacing: -0.025em;
+  margin-bottom: 0.35em;
+  text-wrap: balance;
+}
+
+h2 {
+  font-size: var(--step-3);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.3em;
+  text-wrap: balance;
+}
+
+h3 {
+  font-size: var(--step-1);
+  line-height: 1.22;
+  letter-spacing: -0.01em;
+  margin-bottom: 0.4em;
+}
+
+.eyebrow {
+  display: inline-flex;
+  /* `.content` é grid: sem isto a pílula esticaria até a largura da coluna. */
+  justify-self: start;
+  align-items: center;
+  gap: 9px;
+  margin: 0 0 14px;
+  padding: 6px 13px;
+  border-radius: 999px;
+  border: 1px solid var(--glass-line-strong);
+  background: rgba(78, 215, 232, 0.08);
+  color: var(--proa);
+  font-size: var(--step--1);
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.eyebrow::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 10px currentColor;
+}
+
+.lead {
+  font-size: var(--step-1);
+  line-height: 1.5;
+  color: var(--muted);
+  max-width: 62ch;
+}
+
+.fine {
+  font-size: var(--step--1);
+  color: var(--faint);
+  line-height: 1.45;
+  margin: 0;
+}
+
+/* Linha de proveniência: presente em toda tela, nunca escondida. */
+.source-line {
+  margin: 6px 0 0;
+  padding-top: 12px;
+  border-top: 1px solid var(--glass-line);
+  color: var(--faint);
+  font-size: var(--step--1);
+  line-height: 1.45;
+}
+
+/* ------------------------------------------------------ superfícies */
+
+.panel {
+  padding: clamp(18px, 2.2vw, 28px);
+  border-radius: var(--radius);
+  border: 1px solid var(--glass-line);
+  background: var(--glass);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  box-shadow: var(--shadow);
+}
+
+/* Regra: enunciado que vem direto da lição, com barra semântica à esquerda. */
+.rule {
+  position: relative;
+  margin: 0 0 12px;
+  padding: 16px 20px 16px 24px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--glass-line);
+  background: var(--glass);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  font-size: var(--step-1);
+  line-height: 1.45;
+}
+
+.rule::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 12px;
+  bottom: 12px;
+  width: 4px;
+  border-radius: 999px;
+  background: var(--tone, var(--proa));
+  box-shadow: 0 0 16px -2px var(--tone, var(--proa));
+}
+
+.rule.t-proa { --tone: var(--proa); }
+.rule.t-popa { --tone: var(--popa); }
+.rule.t-boreste { --tone: var(--boreste); }
+.rule.t-bombordo { --tone: var(--bombordo); }
+.rule.t-meia-nau { --tone: var(--meia-nau); }
+
+.tag {
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  color: var(--tone, var(--proa));
+}
+
+.tag.t-boreste { --tone: var(--boreste); }
+.tag.t-bombordo { --tone: var(--bombordo); }
+
+/* Card de erro comum: alto contraste, deliberadamente destoante. */
+.misconception {
+  position: relative;
+  padding: clamp(20px, 3vw, 32px);
+  border-radius: var(--radius);
+  border: 1px solid rgba(251, 113, 133, 0.45);
+  background: linear-gradient(145deg, rgba(60, 22, 33, 0.85), rgba(30, 16, 22, 0.7));
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  font-size: var(--step-2);
+  line-height: 1.28;
+  text-wrap: balance;
+}
+
+.misconception::before {
+  content: "“";
+  position: absolute;
+  top: -6px;
+  left: 14px;
+  font-size: 4rem;
+  line-height: 1;
+  color: rgba(251, 113, 133, 0.35);
+}
+
+/* --------------------------------------------------------- interação */
+
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.action {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 46px;
+  padding: 11px 18px;
+  border-radius: 999px;
+  border: 1px solid var(--glass-line-strong);
+  background: var(--glass);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  color: var(--text);
+  cursor: pointer;
+  transition: border-color 0.2s var(--ease), color 0.2s var(--ease),
+              background 0.2s var(--ease), transform 0.2s var(--ease);
+}
+
+.action:hover { border-color: var(--proa); color: var(--proa); transform: translateY(-1px); }
+.action.active { border-color: var(--proa); color: var(--proa); background: rgba(78, 215, 232, 0.12); }
+.action.correct { border-color: var(--ok); color: var(--ok); background: rgba(74, 222, 128, 0.12); }
+.action.wrong { border-color: var(--err); color: var(--err); background: rgba(251, 113, 133, 0.12); }
+.action .icon { width: 18px; height: 18px; }
+
+/* Área de retorno com altura reservada: o layout não pula ao responder. */
+.feedback {
+  min-height: 3.2em;
+  margin: 4px 0 0;
+  color: var(--muted);
+  line-height: 1.45;
+  transition: color 0.25s var(--ease);
+}
+
+.feedback.ok { color: var(--ok); }
+.feedback.err { color: var(--err); }
+
+/* ------------------------------------------------------------- palco */
+
+/* Palco do navio: proporção estável, moldura de vidro e água sob o casco
+   representada apenas como textura de fundo. */
+.stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  min-height: 260px;
+  border-radius: var(--radius);
+  border: 1px solid var(--glass-line);
+  background:
+    radial-gradient(80% 60% at 50% 0%, rgba(78, 215, 232, 0.1), transparent 60%),
+    linear-gradient(180deg, #0d1721 0%, #091119 100%);
+  box-shadow: var(--shadow-lift), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  overflow: hidden;
+}
+
+.stage svg { display: block; width: 100%; height: 100%; }
+
+/* Marulho: linhas horizontais lentas. Só sinaliza "há água"; não mede nada. */
+.swell {
+  animation: swell 9s ease-in-out infinite alternate;
+  transform-origin: center;
+}
+
+@keyframes swell {
+  from { transform: translateY(-4px); opacity: 0.5; }
+  to { transform: translateY(4px); opacity: 0.85; }
+}
+
+/* Balanço do navio: amplitude mínima, apenas para o palco não parecer estático. */
+.bob { animation: bob 7s ease-in-out infinite alternate; transform-origin: center; }
+
+@keyframes bob {
+  from { transform: translateY(-5px) rotate(-0.7deg); }
+  to { transform: translateY(5px) rotate(0.7deg); }
+}
+
+/* Pulso da seta de proa: chama atenção para a referência que decide os bordos. */
+.pulse { animation: pulse 2.6s ease-in-out infinite; }
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 1; }
+}
+
+/* Rótulos ancorados ao objeto, conforme docs/authoring-standards.md. */
+.tick {
+  font: 700 15px Inter, system-ui, sans-serif;
+  letter-spacing: 0.08em;
+  paint-order: stroke;
+  stroke: #05090d;
+  stroke-width: 5px;
+  stroke-linejoin: round;
+}
+
+.tick.sm { font-size: 13px; }
+
+.hull { fill: #dde7ec; stroke: #93a8b4; stroke-width: 3; }
+.keel-line { stroke: #5b7180; stroke-width: 2; stroke-dasharray: 9 8; }
+.band-boreste { fill: var(--boreste); opacity: 0.42; }
+.band-bombordo { fill: var(--bombordo); opacity: 0.42; }
+.band-meia-nau { fill: var(--meia-nau); opacity: 0.36; }
+.edge-meia-nau { stroke: var(--meia-nau); stroke-width: 2.5; stroke-dasharray: 7 6; fill: none; }
+
+.watcher circle { fill: var(--meia-nau); stroke: #ffffff; stroke-width: 3; }
+.watcher.mental circle { fill: var(--proa); }
+.watcher { transition: transform 0.55s var(--ease); }
+
+.ship-group { transition: transform 0.6s var(--ease); }
+
+/* Estado de pista: rótulos escondidos até o aluno pedir ajuda. */
+.stage.hide-labels .maybe { opacity: 0; transition: opacity 0.4s var(--ease); }
+.stage.hint .maybe.proa { opacity: 1; }
+
+/* -------------------------------------------------------------- grades */
+
+.concept-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(165px, 1fr));
+  gap: 12px;
+}
+
+.concept {
+  padding: 18px 16px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--glass-line);
+  border-top: 3px solid var(--tone, var(--proa));
+  background: var(--glass);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  transition: transform 0.25s var(--ease), border-color 0.25s var(--ease);
+}
+
+.concept:hover { transform: translateY(-3px); }
+.concept strong { display: block; margin-bottom: 6px; font-size: var(--step-1); color: var(--tone, var(--text)); }
+.concept span { color: var(--muted); font-size: var(--step--1); line-height: 1.4; }
+
+.concept.t-proa { --tone: var(--proa); }
+.concept.t-popa { --tone: var(--popa); }
+.concept.t-boreste { --tone: var(--boreste); }
+.concept.t-bombordo { --tone: var(--bombordo); }
+.concept.t-meia-nau { --tone: var(--meia-nau); }
+
+.summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 14px;
+}
+
+.summary > div {
+  padding: clamp(18px, 2.2vw, 26px);
+  border-radius: var(--radius);
+  border: 1px solid var(--glass-line);
+  border-top: 3px solid var(--tone, var(--proa));
+  background: var(--glass);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+}
+
+.summary p { color: var(--muted); margin: 0; line-height: 1.45; }
+
+/* --------------------------------------------------------- utilidades */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Marcador de proveniência: liga o texto da tela a uma claim da lição canônica.
+   É só um rótulo para o validador e para leitores de tela — não pode impor
+   display, porque a mesma classe aparece em parágrafo, span e cartão. */
+.claim { }
+
+/* Mapa de slides: visão geral acionada por teclado ou botão. */
+.map {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: none;
+  place-items: center;
+  padding: 28px;
+  background: rgba(5, 9, 13, 0.82);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.map[open] { display: grid; }
+
+.map ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 10px;
+  width: min(880px, 100%);
+  max-height: 80svh;
+  overflow-y: auto;
+}
+
+.map button {
+  width: 100%;
+  text-align: left;
+  padding: 14px 16px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--glass-line);
+  background: var(--glass);
+  color: var(--text);
+  cursor: pointer;
+  line-height: 1.3;
+  transition: border-color 0.2s var(--ease), transform 0.2s var(--ease);
+}
+
+.map button:hover { border-color: var(--proa); transform: translateY(-2px); }
+.map button small { display: block; color: var(--faint); font-size: var(--step--1); margin-bottom: 4px; }
+
+/* @MIRA:RESPONSIVE:START */
+@media (max-width: 860px) {
+  html { scroll-snap-type: none; }
+
+  .slide {
+    min-height: auto;
+    padding: clamp(78px, 12vh, 96px) 16px clamp(28px, 6vh, 44px);
+  }
+
+  .slide:last-child { padding-bottom: 110px; }
+
+  .grid-2 { grid-template-columns: 1fr; }
+
+  /* No celular o palco vem primeiro: a figura ancora a leitura do texto. */
+  .grid-2 > .stage { order: -1; }
+
+  .stage { aspect-ratio: 4 / 3; min-height: 210px; }
+
+  .deck-bar { top: 10px; gap: 8px; padding: 6px 8px 6px 12px; }
+  .deck-bar .deck-id { display: none; }
+  .dots button { width: 7px; height: 7px; }
+  .dots button[aria-current="true"] { width: 18px; }
+
+  .icon-btn { width: 44px; height: 44px; }
+  .misconception { font-size: var(--step-1); }
+  .rule { font-size: var(--step-0); }
+  .tick { font-size: 17px; }
+  .tick.sm { font-size: 15px; }
+}
+
+@media (max-width: 460px) {
+  .dots { max-width: 46vw; overflow: hidden; }
+  .action { width: 100%; justify-content: center; }
+}
+/* @MIRA:RESPONSIVE:END */
+
+/* Contrato de acessibilidade: nenhuma animação sobrevive à preferência do
+   usuário, e nenhuma informação depende exclusivamente de movimento. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  *, *::before, *::after {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .deck-ready .slide [data-reveal] { opacity: 1; transform: none; }
+}
+
+@media print {
+  .deck-bar, .controls, .progress, .map, .backdrop { display: none !important; }
+  .slide { min-height: auto; page-break-after: always; padding: 24px 0; }
+  body { background: #fff; color: #111; }
+  .panel, .rule, .concept, .summary > div { background: #fff; border-color: #ccc; }
+}

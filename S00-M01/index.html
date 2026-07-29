@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#05090d">
+  <meta name="description" content="Aula S00-M01: proa, popa, boreste, bombordo e meia-nau como referência espacial presa ao navio.">
+  <title>S00-M01 | O navio como referência espacial</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="assets/vendor/inter.css">
+  <link rel="stylesheet" href="assets/theme/ysd-deck.css">
+  <script src="assets/vendor/lucide.js"></script>
+  <style>
+    /* @MIRA:RESPONSIVE:START */
+    /* Ajustes específicos deste deck. O comportamento responsivo base vem do
+       tema compartilhado em assets/theme/ysd-deck.css. */
+    @media (max-width: 860px) {
+      .deck-title { font-size: var(--step-3); }
+    }
+    /* @MIRA:RESPONSIVE:END */
+  </style>
+</head>
+<body>
+  <div class="backdrop" aria-hidden="true"></div>
+
+  <!-- Definições reutilizadas: um único desenho do navio serve a todas as telas,
+       garantindo a mesma convenção visual do começo ao fim da aula. -->
+  <svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
+    <defs>
+      <symbol id="hull" viewBox="0 0 640 220">
+        <!-- Vista de cima. Extremidade afilada à direita: é a que segue à frente
+             na marcha normal. Extremidade esquerda reta: é a oposta. -->
+        <path class="hull" d="M30 34 H432 C520 34 578 70 624 110 C578 150 520 186 432 186 H30 C22 186 16 180 16 172 V48 C16 40 22 34 30 34 Z"/>
+      </symbol>
+
+      <marker id="arrow-proa" viewBox="0 0 12 12" refX="9" refY="6" markerWidth="7" markerHeight="7" orient="auto">
+        <path d="M0 0 L12 6 L0 12 Z" fill="#4ed7e8"/>
+      </marker>
+    </defs>
+  </svg>
+
+  <div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
+
+  <nav class="deck-bar" aria-label="Progresso da aula">
+    <span class="deck-id">S00-M01</span>
+    <span class="dots" id="dots" role="group" aria-label="Ir para slide"></span>
+    <span class="counter" id="counter" aria-live="polite">1 / 10</span>
+  </nav>
+
+  <div class="controls">
+    <button class="icon-btn" id="mapToggle" type="button" title="Mapa dos slides (G)" aria-label="Abrir mapa dos slides"><i data-lucide="layout-grid"></i></button>
+    <button class="icon-btn" id="previous" type="button" title="Slide anterior" aria-label="Slide anterior"><i data-lucide="chevron-up"></i></button>
+    <button class="icon-btn" id="next" type="button" title="Próximo slide" aria-label="Próximo slide"><i data-lucide="chevron-down"></i></button>
+  </div>
+
+  <div class="map" id="slideMap" role="dialog" aria-modal="true" aria-label="Mapa dos slides">
+    <ol></ol>
+  </div>
+
+  <main>
+
+    <!-- 1 · Ativação diagnóstica. A pergunta abre a aula e não vale nota. -->
+    <section class="slide" id="slide-1" data-slide-id="SLIDE-S00-M01-01" data-source-refs="DPC-ARTE-NAVAL-CAP1-2005#art-1.5">
+      <div class="content grid-2">
+        <div>
+          <p class="eyebrow" data-reveal="1">S00-M01 · Pergunta de ativação</p>
+          <h1 class="deck-title" data-reveal="1">O navio como referência espacial</h1>
+          <p class="lead" data-reveal="2">Duas pessoas em posições diferentes precisam nomear o mesmo lado do navio. Os nomes mudam com quem observa?</p>
+          <div data-question data-reveal="3">
+            <div class="button-row">
+              <button class="action" type="button" data-choice="wrong" data-message="Hipótese registrada. Guarde-a: a aula vai testar exatamente essa intuição.">Acho que mudam</button>
+              <button class="action" type="button" data-choice="correct" data-message="Hipótese registrada. Guarde-a: a aula vai mostrar por que os nomes ficam presos ao navio.">Acho que permanecem</button>
+            </div>
+            <p class="feedback" data-feedback id="activationFeedback">Escolha uma hipótese. Esta pergunta não vale nota.</p>
+          </div>
+          <p class="source-line" data-reveal="4">Derivação: lição §§ ativação e situação concreta · Fonte conceitual: Arte Naval, art. 1.5</p>
+        </div>
+
+        <div class="stage" data-reveal="2" role="img" aria-label="Navio visto de cima, com um observador atrás e outro à frente, em posições diferentes.">
+          <svg viewBox="0 0 640 400" preserveAspectRatio="xMidYMid meet">
+            <g class="swell" stroke="#5f7d8c" stroke-width="1.6" opacity="0.5">
+              <path d="M0 62 H640" stroke-dasharray="26 22"/>
+              <path d="M0 108 H640" stroke-dasharray="34 26"/>
+              <path d="M0 296 H640" stroke-dasharray="34 26"/>
+              <path d="M0 342 H640" stroke-dasharray="26 22"/>
+            </g>
+            <g class="bob">
+              <use href="#hull" x="80" y="118" width="480" height="165"/>
+              <line class="keel-line" x1="104" y1="200" x2="440" y2="200"/>
+            </g>
+            <g class="watcher" transform="translate(96 330)">
+              <circle r="16"/>
+              <text class="tick sm" x="0" y="40" text-anchor="middle" fill="#f2f7fa">observador 1</text>
+            </g>
+            <g class="watcher" transform="translate(536 330)">
+              <circle r="16"/>
+              <text class="tick sm" x="0" y="40" text-anchor="middle" fill="#f2f7fa">observador 2</text>
+            </g>
+          </svg>
+        </div>
+
+        <span class="sr-only claim" data-claim-id="CLM-S00-M01-006">Os nomes permanecem ligados ao navio quando o observador muda de posição.</span>
+      </div>
+    </section>
+
+    <!-- 2 · Primeiro eixo: as duas extremidades. -->
+    <section class="slide" id="slide-2" data-slide-id="SLIDE-S00-M01-02" data-source-refs="DPC-ARTE-NAVAL-CAP1-2005#arts-1.3-1.4">
+      <div class="content grid-2">
+        <div>
+          <p class="eyebrow" data-reveal="1">Primeiro eixo</p>
+          <h2 data-reveal="1">Comece pelas extremidades</h2>
+          <p class="rule t-proa claim" data-claim-id="CLM-S00-M01-001" data-reveal="2">A <strong class="tag">proa</strong> é a extremidade anterior do navio no sentido de sua marcha normal.</p>
+          <p class="rule t-popa claim" data-claim-id="CLM-S00-M01-002" data-reveal="3">A <strong class="tag" style="--tone:var(--popa)">popa</strong> é a extremidade posterior do navio.</p>
+          <p class="source-line" data-reveal="4">Lição: conceito-proa, conceito-popa · Arte Naval, arts. 1.3 e 1.4</p>
+        </div>
+
+        <div class="stage" data-reveal="2" role="img" aria-label="Navio visto de cima: a proa está à direita, marcada por uma seta que aponta para o sentido da marcha; a popa está à esquerda.">
+          <svg viewBox="0 0 640 400" preserveAspectRatio="xMidYMid meet">
+            <g class="swell" stroke="#5f7d8c" stroke-width="1.6" opacity="0.4">
+              <path d="M0 62 H640" stroke-dasharray="26 22"/>
+              <path d="M0 108 H640" stroke-dasharray="34 26"/>
+              <path d="M0 296 H640" stroke-dasharray="34 26"/>
+              <path d="M0 342 H640" stroke-dasharray="26 22"/>
+            </g>
+            <g class="bob">
+              <use href="#hull" x="80" y="118" width="480" height="165"/>
+              <line class="keel-line" x1="104" y1="200" x2="440" y2="200"/>
+              <line class="pulse" x1="556" y1="200" x2="600" y2="200" stroke="#4ed7e8" stroke-linecap="round" stroke-width="5" marker-end="url(#arrow-proa)"/>
+              <text class="tick" x="546" y="130" text-anchor="end" fill="#4ed7e8">PROA</text>
+              <text class="tick" x="96" y="130" fill="#f6a84b">POPA</text>
+              <text class="tick sm" x="320" y="300" text-anchor="middle" fill="#a8bcca">a seta indica o sentido da marcha normal</text>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3 · Meia-nau é região, não ponto. -->
+    <section class="slide" id="slide-3" data-slide-id="SLIDE-S00-M01-03" data-source-refs="DPC-ARTE-NAVAL-CAP1-2005#art-1.6">
+      <div class="content grid-2">
+        <div>
+          <p class="eyebrow" data-reveal="1">Região central</p>
+          <h2 data-reveal="1">Meia-nau é uma região</h2>
+          <p class="lead claim" data-claim-id="CLM-S00-M01-005" data-reveal="2">Meia-nau designa a região aproximadamente central entre proa e popa, e não um ponto único obrigatório.</p>
+          <p class="fine" data-reveal="3">A faixa tem largura porque a definição tem largura. Uma linha fina sugeriria precisão que a fonte não afirma.</p>
+          <p class="source-line" data-reveal="4">Lição: conceito-meia-nau · Arte Naval, art. 1.6</p>
+        </div>
+
+        <div class="stage" data-reveal="2" role="img" aria-label="Navio visto de cima com uma faixa amarela larga marcando a região central entre proa e popa; as bordas da faixa são tracejadas para indicar que o limite é aproximado.">
+          <svg viewBox="0 0 640 400" preserveAspectRatio="xMidYMid meet">
+            <g class="swell" stroke="#5f7d8c" stroke-width="1.6" opacity="0.45">
+              <path d="M0 76 H640" stroke-dasharray="26 22"/>
+              <path d="M0 324 H640" stroke-dasharray="34 26"/>
+            </g>
+            <g class="bob">
+              <use href="#hull" x="80" y="118" width="480" height="165"/>
+              <rect class="band-meia-nau" x="272" y="146" width="96" height="109"/>
+              <path class="edge-meia-nau" d="M272 146 V255 M368 146 V255"/>
+              <line class="keel-line" x1="104" y1="200" x2="440" y2="200"/>
+              <text class="tick" x="546" y="130" text-anchor="end" fill="#4ed7e8">PROA</text>
+              <text class="tick" x="96" y="130" fill="#f6a84b">POPA</text>
+              <text class="tick" x="320" y="292" text-anchor="middle" fill="#fcd34d">MEIA-NAU</text>
+              <text class="tick sm" x="320" y="322" text-anchor="middle" fill="#a8bcca">limite aproximado, não exato</text>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4 · Regra dos bordos, ancorada na proa. -->
+    <section class="slide" id="slide-4" data-slide-id="SLIDE-S00-M01-04" data-source-refs="DPC-ARTE-NAVAL-CAP1-2005#art-1.5">
+      <div class="content grid-2">
+        <div>
+          <p class="eyebrow" data-reveal="1">Regra dos bordos</p>
+          <h2 data-reveal="1">Oriente-se para a proa</h2>
+          <p class="claim" data-claim-id="CLM-S00-M01-003" data-reveal="2"><strong class="tag t-boreste">Boreste:</strong> à direita ao olhar para a proa.</p>
+          <p class="claim" data-claim-id="CLM-S00-M01-004" data-reveal="2"><strong class="tag t-bombordo">Bombordo:</strong> à esquerda ao olhar para a proa.</p>
+          <p class="rule t-proa claim" data-claim-id="CLM-S00-M01-008" data-reveal="3">Para decidir boreste e bombordo, primeiro localize a proa e depois imagine-se olhando para ela.</p>
+          <p class="source-line" data-reveal="4">Lição: conceito-bordos, regra-decisao · Arte Naval, art. 1.5</p>
+        </div>
+
+        <div class="stage" data-reveal="2" role="img" aria-label="Navio visto de cima com a proa à direita. O lado superior, verde, é boreste. O lado inferior, vermelho, é bombordo. Um observador desenhado no centro está voltado para a proa.">
+          <svg viewBox="0 0 640 400" preserveAspectRatio="xMidYMid meet">
+            <g class="swell" stroke="#5f7d8c" stroke-width="1.6" opacity="0.4">
+              <path d="M0 62 H640" stroke-dasharray="26 22"/>
+              <path d="M0 342 H640" stroke-dasharray="34 26"/>
+            </g>
+            <g class="bob">
+              <use href="#hull" x="80" y="118" width="480" height="165"/>
+              <rect class="band-boreste" x="98" y="147" width="306" height="52"/>
+              <rect class="band-bombordo" x="98" y="202" width="306" height="52"/>
+              <line class="keel-line" x1="104" y1="200" x2="440" y2="200"/>
+              <line class="pulse" x1="556" y1="200" x2="600" y2="200" stroke="#4ed7e8" stroke-linecap="round" stroke-width="5" marker-end="url(#arrow-proa)"/>
+              <text class="tick" x="546" y="130" text-anchor="end" fill="#4ed7e8">PROA</text>
+              <text class="tick" x="192" y="130" text-anchor="middle" fill="#4ade80">BORESTE</text>
+              <text class="tick" x="192" y="288" text-anchor="middle" fill="#fb7185">BOMBORDO</text>
+              <g class="watcher mental" transform="translate(268 200)">
+                <circle r="15"/>
+                <line x1="20" y1="0" x2="58" y2="0" stroke="#4ed7e8" stroke-width="4" marker-end="url(#arrow-proa)"/>
+                <text class="tick sm" x="22" y="-28" fill="#4ed7e8">olhando para a proa</text>
+              </g>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5 · Variável controlada: move o observador, mantém o navio. -->
+    <section class="slide" id="slide-5" data-slide-id="SLIDE-S00-M01-05" data-source-refs="DPC-ARTE-NAVAL-CAP1-2005#art-1.5">
+      <div class="content grid-2">
+        <div>
+          <p class="eyebrow" data-reveal="1">Mudança controlada</p>
+          <h2 data-reveal="1">Mova o observador</h2>
+          <p class="lead claim" data-claim-id="CLM-S00-M01-006" data-reveal="2">Os nomes permanecem ligados ao navio quando o observador muda de posição.</p>
+          <p class="claim" data-claim-id="CLM-S00-M01-008" data-reveal="2">Use sempre a proa para se orientar mentalmente.</p>
+          <div class="button-row" id="observerGroup" data-select-group role="group" aria-label="Posição do observador" data-reveal="3">
+            <button class="action active" type="button" data-value="0">Atrás</button>
+            <button class="action" type="button" data-value="1">Ao lado</button>
+            <button class="action" type="button" data-value="2">De frente</button>
+          </div>
+          <p class="feedback" id="observerFeedback" aria-live="polite">O observador está atrás. Boreste continua no lado verde e bombordo no lado vermelho.</p>
+          <p class="source-line" data-reveal="4">Lição: modelo-mental · Exemplos 01, 02 e 04 · Arte Naval, art. 1.5</p>
+        </div>
+
+        <div class="stage" data-reveal="2" role="img" aria-label="O mesmo navio com boreste verde em cima e bombordo vermelho embaixo. Um observador amarelo muda de posição ao redor sem que as cores ou os nomes mudem.">
+          <svg viewBox="0 0 640 400" preserveAspectRatio="xMidYMid meet">
+            <g class="swell" stroke="#5f7d8c" stroke-width="1.6" opacity="0.4">
+              <path d="M0 62 H640" stroke-dasharray="26 22"/>
+              <path d="M0 342 H640" stroke-dasharray="34 26"/>
+            </g>
+            <g>
+              <use href="#hull" x="80" y="118" width="480" height="165"/>
+              <rect class="band-boreste" x="98" y="147" width="306" height="52"/>
+              <rect class="band-bombordo" x="98" y="202" width="306" height="52"/>
+              <line class="pulse" x1="556" y1="200" x2="600" y2="200" stroke="#4ed7e8" stroke-linecap="round" stroke-width="5" marker-end="url(#arrow-proa)"/>
+              <text class="tick" x="546" y="130" text-anchor="end" fill="#4ed7e8">PROA</text>
+              <text class="tick" x="192" y="130" text-anchor="middle" fill="#4ade80">BORESTE</text>
+              <text class="tick" x="192" y="288" text-anchor="middle" fill="#fb7185">BOMBORDO</text>
+            </g>
+            <g class="watcher" id="movingWatcher" transform="translate(44 200)">
+              <circle r="16"/>
+              <text class="tick sm" x="0" y="40" text-anchor="middle" fill="#f2f7fa">observador</text>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6 · Segunda variável controlada: gira a representação. -->
+    <section class="slide" id="slide-6" data-slide-id="SLIDE-S00-M01-06" data-source-refs="DPC-ARTE-NAVAL-CAP1-2005#arts-1.3-1.5">
+      <div class="content grid-2">
+        <div>
+          <p class="eyebrow" data-reveal="1">A página gira</p>
+          <h2 data-reveal="1">O navio mantém seus nomes</h2>
+          <p class="lead claim" data-claim-id="CLM-S00-M01-007" data-reveal="2">Girar o desenho do navio na página não altera os nomes de suas extremidades ou bordos.</p>
+          <p class="claim" data-claim-id="CLM-S00-M01-008" data-reveal="2">Localize a proa novamente antes de decidir.</p>
+          <div class="button-row" data-reveal="3">
+            <button class="action" id="rotateShip" type="button"><i class="icon" data-lucide="rotate-cw"></i> Girar 90°</button>
+          </div>
+          <p class="feedback" aria-live="polite">Orientação atual: <strong id="angleLabel">0°</strong>. Os rótulos não foram renomeados.</p>
+          <p class="source-line" data-reveal="4">Lição: modelo-mental, retirada-suporte · Exemplo 05</p>
+        </div>
+
+        <div class="stage" data-reveal="2" role="img" aria-label="Navio que pode ser girado em passos de noventa graus. Os rótulos giram junto com ele, mostrando que os nomes acompanham o navio e não a página.">
+          <svg viewBox="0 0 640 400" preserveAspectRatio="xMidYMid meet">
+            <g class="swell" stroke="#5f7d8c" stroke-width="1.6" opacity="0.3">
+              <path d="M0 40 H640" stroke-dasharray="26 22"/>
+              <path d="M0 364 H640" stroke-dasharray="34 26"/>
+            </g>
+            <!-- Os rótulos giram junto com o navio: é exatamente esse o ponto da tela. -->
+            <g class="ship-group" id="rotatingShip" transform="rotate(0 320 200)">
+              <use href="#hull" x="128" y="139" width="384" height="132"/>
+              <rect class="band-boreste" x="142" y="162" width="245" height="42"/>
+              <rect class="band-bombordo" x="142" y="206" width="245" height="42"/>
+              <line class="pulse" x1="516" y1="200" x2="556" y2="200" stroke="#4ed7e8" stroke-linecap="round" stroke-width="5" marker-end="url(#arrow-proa)"/>
+              <text class="tick sm" x="506" y="150" text-anchor="end" fill="#4ed7e8">PROA</text>
+              <text class="tick sm" x="212" y="150" text-anchor="middle" fill="#4ade80">BORESTE</text>
+              <text class="tick sm" x="212" y="272" text-anchor="middle" fill="#fb7185">BOMBORDO</text>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7 · Contraste entre atalho errado e regra correta. -->
+    <section class="slide" id="slide-7" data-slide-id="SLIDE-S00-M01-07" data-source-refs="DPC-ARTE-NAVAL-CAP1-2005#art-1.5">
+      <div class="content">
+        <p class="eyebrow" data-reveal="1">Erro comum</p>
+        <h2 data-reveal="1">Qual regra precisa ser corrigida?</h2>
+        <p class="misconception" data-reveal="2">Minha direita é sempre boreste.</p>
+        <div data-question data-reveal="3">
+          <div class="button-row">
+            <button class="action" type="button" data-choice="wrong" data-message="Esse atalho ainda depende da tela. Se a figura girar, a resposta muda sem que o navio mude. Procure a proa primeiro.">Boreste é a direita da tela</button>
+            <button class="action" type="button" data-choice="correct" data-message="Correto: primeiro estabeleça a orientação para a proa; só então direita e esquerda significam boreste e bombordo.">Boreste é a direita ao olhar para a proa</button>
+          </div>
+          <p class="feedback" data-feedback id="ruleFeedback">Escolha antes de revelar a correção.</p>
+        </div>
+        <p class="rule t-proa claim" data-claim-id="CLM-S00-M01-008" data-reveal="4">A decisão correta começa pela proa.</p>
+        <span class="sr-only claim" data-claim-id="CLM-S00-M01-006">A posição do observador não renomeia os bordos.</span>
+        <p class="source-line" data-reveal="4">Lição: erros-comuns, regra-decisao · Exemplo 07 · Arte Naval, art. 1.5</p>
+      </div>
+    </section>
+
+    <!-- 8 · Prática guiada: pista disponível, mas opcional. -->
+    <section class="slide" id="slide-8" data-slide-id="SLIDE-S00-M01-08" data-source-refs="DPC-ARTE-NAVAL-CAP1-2005#art-1.5">
+      <div class="content grid-2">
+        <div>
+          <p class="eyebrow" data-reveal="1">Prática guiada</p>
+          <h2 data-reveal="1">Qual é o bordo destacado?</h2>
+          <p class="claim" data-claim-id="CLM-S00-M01-008" data-reveal="2">Primeiro localize a proa; depois oriente-se mentalmente para ela.</p>
+          <div data-question data-reveal="3">
+            <div class="button-row">
+              <button class="action" type="button" data-choice="correct" data-message="Correto. Nesta orientação, o lado verde fica à direita de quem olha para a proa.">Boreste</button>
+              <button class="action" type="button" data-choice="wrong" data-message="Reoriente-se para a proa: nesta inclinação, o lado verde está à direita dessa orientação, não à esquerda.">Bombordo</button>
+              <button class="action" id="showHint" type="button"><i class="icon" data-lucide="lightbulb"></i> Pista</button>
+            </div>
+            <p class="feedback" data-feedback id="guidedFeedback">O bordo verde está destacado, o navio está inclinado e o rótulo da proa está oculto. Responda sem pista, se conseguir.</p>
+          </div>
+          <p class="source-line" data-reveal="4">Lição: prática-guiada, regra-decisao · Arte Naval, art. 1.5</p>
+        </div>
+
+        <div class="stage hide-labels" id="guidedStage" data-reveal="2" role="img" aria-label="Navio inclinado em diagonal, com um dos bordos pintado de verde e os rótulos ocultos. A pista revela a seta e o rótulo da proa.">
+          <svg viewBox="0 0 640 400" preserveAspectRatio="xMidYMid meet">
+            <g class="swell" stroke="#5f7d8c" stroke-width="1.6" opacity="0.3">
+              <path d="M0 40 H640" stroke-dasharray="26 22"/>
+              <path d="M0 364 H640" stroke-dasharray="34 26"/>
+            </g>
+            <g transform="rotate(-32 320 200)">
+              <use href="#hull" x="128" y="139" width="384" height="132"/>
+              <rect class="band-boreste" x="142" y="162" width="245" height="42"/>
+              <line class="keel-line" x1="148" y1="200" x2="400" y2="200"/>
+              <g class="maybe proa">
+                <line class="pulse" x1="516" y1="200" x2="556" y2="200" stroke="#4ed7e8" stroke-linecap="round" stroke-width="5" marker-end="url(#arrow-proa)"/>
+                <text class="tick sm" x="506" y="150" text-anchor="end" fill="#4ed7e8">PROA</text>
+              </g>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- 9 · Aplicação independente: nenhuma pista. -->
+    <section class="slide" id="slide-9" data-slide-id="SLIDE-S00-M01-09" data-source-refs="DPC-ARTE-NAVAL-CAP1-2005#arts-1.3-1.6">
+      <div class="content">
+        <p class="eyebrow" data-reveal="1">Aplicação independente</p>
+        <h2 data-reveal="1">Reconstrua o sistema completo</h2>
+        <p class="lead" data-reveal="2">Em uma figura inédita, identifique as duas extremidades, os dois bordos e a região central. Nenhuma pista nesta etapa.</p>
+        <div class="concept-grid" data-reveal="3" aria-label="Cinco conceitos que devem ser identificados">
+          <div class="concept t-proa"><strong class="claim" data-claim-id="CLM-S00-M01-001">Proa</strong><span>extremidade anterior</span></div>
+          <div class="concept t-popa"><strong class="claim" data-claim-id="CLM-S00-M01-002">Popa</strong><span>extremidade posterior</span></div>
+          <div class="concept t-boreste"><strong class="claim" data-claim-id="CLM-S00-M01-003">Boreste</strong><span>direita olhando para a proa</span></div>
+          <div class="concept t-bombordo"><strong class="claim" data-claim-id="CLM-S00-M01-004">Bombordo</strong><span>esquerda olhando para a proa</span></div>
+          <div class="concept t-meia-nau"><strong class="claim" data-claim-id="CLM-S00-M01-005">Meia-nau</strong><span>região aproximadamente central</span></div>
+        </div>
+        <div class="button-row" data-reveal="4">
+          <button class="action" id="independentReveal" type="button" data-says="Confira: proa, popa, boreste, bombordo e meia-nau. O deck não grava resultado; o registro pertence à sessão." data-says-target="#independentFeedback">Revelar somente após responder</button>
+        </div>
+        <p class="feedback" id="independentFeedback" aria-live="polite">Na sessão real, a resposta e a confiança serão registradas antes do feedback.</p>
+        <p class="source-line" data-reveal="4">Lição: aplicação-independente, domínio-retencao · Arte Naval, arts. 1.3 a 1.6</p>
+      </div>
+    </section>
+
+    <!-- 10 · Síntese e próxima medida. -->
+    <section class="slide" id="slide-10" data-slide-id="SLIDE-S00-M01-10" data-source-refs="DPC-ARTE-NAVAL-CAP1-2005#arts-1.3-1.6">
+      <div class="content">
+        <p class="eyebrow" data-reveal="1">Síntese</p>
+        <h2 data-reveal="1">O referencial permanece no navio</h2>
+        <div class="summary" data-reveal="2">
+          <div class="concept t-proa" style="--tone:var(--proa)">
+            <h3>Extremidades</h3>
+            <p><span class="claim" data-claim-id="CLM-S00-M01-001">Proa orienta.</span> <span class="claim" data-claim-id="CLM-S00-M01-002">Popa é a extremidade oposta.</span></p>
+          </div>
+          <div style="--tone:var(--meia-nau)">
+            <h3>Região central</h3>
+            <p class="claim" data-claim-id="CLM-S00-M01-005">Meia-nau ocupa a região aproximadamente central.</p>
+          </div>
+          <div style="--tone:var(--boreste)">
+            <h3>Bordos</h3>
+            <p><span class="claim" data-claim-id="CLM-S00-M01-003">Boreste fica à direita</span> e <span class="claim" data-claim-id="CLM-S00-M01-004">bombordo à esquerda</span>, olhando para a proa.</p>
+          </div>
+        </div>
+        <p class="rule t-proa claim" data-claim-id="CLM-S00-M01-006" data-reveal="3">Observador e representação podem mudar; os nomes permanecem ligados ao navio.</p>
+        <p class="source-line" data-reveal="4">Lição: resumo, domínio-retencao · Próxima medida: retenção após ≥ 3 dias e transferência em visual diferente. Nenhum resultado preenchido.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="mira/mira-edit.js"></script>
+  <script src="mira/mira-edit-free.js"></script>
+  <script src="mira/mira-draw.js"></script>
+  <script src="assets/theme/ysd-deck.js"></script>
+  <script>
+    lucide.createIcons();
+
+    /* Interações específicas desta aula. Cada uma altera exatamente uma variável
+       do modelo mental; nenhuma registra desempenho. */
+
+    // Slide 5: a posição do observador muda, o referencial do navio não.
+    var watcherPositions = {
+      "0": {transform: "translate(44 200)", text: "O observador está atrás. Boreste continua no lado verde e bombordo no lado vermelho."},
+      "1": {transform: "translate(320 70)", text: "O observador está ao lado. Nada foi renomeado: os bordos continuam presos ao navio."},
+      "2": {transform: "translate(590 200)", text: "O observador está de frente. A direita dele agora aponta para bombordo, e ainda assim o nome não mudou."}
+    };
+    document.getElementById("observerGroup").addEventListener("ysd:select", function (event) {
+      var state = watcherPositions[event.detail.value];
+      if (!state) return;
+      document.getElementById("movingWatcher").setAttribute("transform", state.transform);
+      document.getElementById("observerFeedback").textContent = state.text;
+    });
+
+    // Slide 6: a representação gira; os rótulos giram junto com o navio.
+    var angle = 0;
+    document.getElementById("rotateShip").addEventListener("click", function () {
+      angle = (angle + 90) % 360;
+      document.getElementById("rotatingShip").setAttribute("transform", "rotate(" + angle + " 320 200)");
+      document.getElementById("angleLabel").textContent = angle + "°";
+    });
+
+    // Slide 8: a pista é opcional e revela apenas a referência de orientação.
+    document.getElementById("showHint").addEventListener("click", function () {
+      document.getElementById("guidedStage").classList.add("hint");
+      document.getElementById("guidedFeedback").textContent = "Pista: a seta mostra a proa. Agora oriente-se para ela antes de responder.";
+    });
+  </script>
+</body>
+</html>
