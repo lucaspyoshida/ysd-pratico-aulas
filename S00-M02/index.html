@@ -56,6 +56,28 @@
     .label-grid { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 10px; margin-top: 16px; }
     .label-chip { padding: 10px; border: 1px solid var(--glass-line); border-radius: 12px; text-align: center; color: var(--muted); }
     .fine-note { color: var(--faint); font-size: var(--step--1); line-height: 1.5; }
+    .photo-stage { background: #071019; }
+    .ship-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; }
+    .photo-stage::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, rgba(5,9,13,.06), rgba(5,9,13,.34)); }
+    .lens-rail { position: absolute; z-index: 2; left: 14px; right: 14px; bottom: 14px; display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 7px; }
+    .lens-chip { min-width: 0; padding: 9px 6px; border-radius: 11px; border: 1px solid rgba(255,255,255,.32); background: rgba(5,9,13,.76); color: var(--text); text-align: center; font-size: .78rem; font-weight: 750; letter-spacing: .03em; backdrop-filter: blur(8px); }
+    .lens-chip.active { border-color: var(--stripe); color: var(--stripe); box-shadow: 0 0 0 1px rgba(64,224,238,.2); }
+    .photo-callout { position: absolute; z-index: 2; border: 2px solid var(--stripe); border-radius: 48% 48% 44% 44%; pointer-events: none; box-shadow: 0 0 22px rgba(64,224,238,.42); }
+    .photo-callout.hull-volume { left: 6%; right: 3%; top: 38%; bottom: 10%; border-radius: 48% 52% 22% 24%; }
+    .photo-accessories { position: absolute; z-index: 2; left: 6%; right: 3%; top: 3%; bottom: 48%; background: rgba(5,9,13,.62); border-bottom: 2px dashed rgba(251,113,133,.8); transition: opacity .25s var(--ease); }
+    .photo-stage.complete .photo-accessories { opacity: 0; }
+    .photo-label { position: absolute; z-index: 3; left: 16px; top: 16px; padding: 8px 11px; border-radius: 10px; background: rgba(5,9,13,.78); color: var(--stripe); font-size: .78rem; font-weight: 800; letter-spacing: .08em; }
+    .focus-shape { opacity: .18; transition: opacity .22s var(--ease), filter .22s var(--ease); }
+    .focus-shape.active { opacity: 1; filter: drop-shadow(0 0 7px currentColor); }
+    .lens-layout { display: grid; grid-template-columns: minmax(0,1.25fr) minmax(250px,.75fr); gap: 16px; align-items: stretch; }
+    .lens-menu { display: grid; gap: 9px; }
+    .lens-answer { display: grid; place-items: center; min-height: 170px; padding: 18px; text-align: center; }
+    .lens-answer strong { display: block; color: var(--stripe); font-size: var(--step-2); margin-bottom: 8px; }
+    .map-stage { min-height: 400px; }
+    .map-label { fill: #f2f7fa; font: 700 14px Inter,sans-serif; paint-order: stroke; stroke: #05090d; stroke-width: 4px; stroke-linejoin: round; }
+    .map-label.group { fill: #9fb4c0; font-size: 12px; letter-spacing: .09em; }
+    .labels-off .map-label.term, .labels-off .label-guide { opacity: 0; }
+    .label-guide { transition: opacity .2s var(--ease); }
     /* @MIRA:RESPONSIVE:START */
     @media (max-width: 860px) {
       .deck-title { font-size: var(--step-3); }
@@ -63,11 +85,17 @@
       .decision .arrow { transform: rotate(90deg); justify-self: center; }
       .label-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
       .stage { min-height: 310px; }
+      .photo-stage { aspect-ratio: 16 / 9; min-height: 0; }
+      .lens-layout { grid-template-columns: 1fr; }
+      .map-stage { min-height: 420px; }
     }
     @media (max-width: 480px) {
       .technical-card { padding: 13px 14px; }
       .label-grid { gap: 7px; }
       .label-chip { padding: 8px 5px; font-size: .78rem; }
+      .lens-rail { left: 8px; right: 8px; bottom: 8px; gap: 4px; }
+      .lens-chip { padding: 7px 2px; font-size: .65rem; }
+      .map-stage { min-height: 390px; }
     }
     @media (prefers-reduced-motion: reduce) {
       .layer-group, .reference-group { transition: none !important; }
@@ -90,9 +118,17 @@
       </pattern>
       <symbol id="sideHull" viewBox="0 0 640 300">
         <path class="ship-shell" d="M54 78 H520 Q570 80 608 116 L578 206 Q535 250 180 252 Q98 250 72 206 Z"></path>
+        <path d="M116 78 V42 H218 V78 M132 42 V22 H198 V42" fill="#243f4e" stroke="#a8c8d7" stroke-width="3"></path>
+        <g fill="#6fa1b5"><rect x="142" y="51" width="13" height="8" rx="2"></rect><rect x="162" y="51" width="13" height="8" rx="2"></rect><rect x="182" y="51" width="13" height="8" rx="2"></rect></g>
+        <line x1="82" y1="112" x2="584" y2="112" stroke="#6e8997" stroke-width="3"></line>
+        <path d="M250 92 H326 V112 H250 Z M348 92 H424 V112 H348 Z" fill="#1c3442" stroke="#6e8997" stroke-width="2"></path>
       </symbol>
       <symbol id="topHullM02" viewBox="0 0 640 300">
         <path class="ship-shell" d="M54 72 H440 Q542 72 608 150 Q542 228 440 228 H54 Q36 228 28 210 V90 Q36 72 54 72 Z"></path>
+        <line x1="42" y1="150" x2="592" y2="150" stroke="#6e8997" stroke-width="2" stroke-dasharray="8 7"></line>
+        <rect x="62" y="94" width="92" height="112" rx="8" fill="#243f4e" stroke="#a8c8d7" stroke-width="3"></rect>
+        <rect x="190" y="104" width="104" height="92" rx="6" fill="#1c3442" stroke="#6e8997" stroke-width="2"></rect>
+        <rect x="320" y="104" width="104" height="92" rx="6" fill="#1c3442" stroke="#6e8997" stroke-width="2"></rect>
       </symbol>
       <marker id="arrowForward" viewBox="0 0 12 12" refX="9" refY="6" markerWidth="7" markerHeight="7" orient="auto">
         <path d="M0 0 L12 6 L0 12 Z" fill="#40e0ee"></path>
@@ -114,32 +150,20 @@
   <div class="map" id="slideMap" role="dialog" aria-modal="true" aria-label="Mapa dos slides"><ol></ol></div>
 
   <main>
-    <section class="slide" id="slide-1" data-slide-id="SLIDE-S00-M02-01" data-source-refs="DPC-ARTE-NAVAL-CAP1-2005#arts-1.11-1.24">
+    <section class="slide" id="slide-1" data-slide-id="SLIDE-S00-M02-01" data-source-refs="DPC-ARTE-NAVAL-CAP1-2005#arts-1.2-1.24">
       <div class="content grid-2">
         <div>
-          <p class="eyebrow" data-reveal="1">S00-M02 · Situação concreta</p>
-          <h1 class="deck-title" data-reveal="1">Regiões e partes externas do casco</h1>
-          <p class="lead claim" data-claim-id="CLM-S00-M02-010" data-reveal="2">“Ali na lateral” não basta. Primeiro escolha a vista; depois aplique a relação espacial adequada.</p>
-          <div class="view-tabs" data-select-group id="viewIntro" data-reveal="3" role="group" aria-label="Escolha de vista">
-            <button class="action active" type="button" data-value="profile">Perfil</button>
-            <button class="action" type="button" data-value="top">Vista superior</button>
-          </div>
-          <p class="feedback" id="viewIntroFeedback" aria-live="polite">O perfil ajuda a comparar altura em relação à água.</p>
-          <p class="source-line" data-reveal="4">Lição: situação concreta e modelo mental · Arte Naval, arts. 1.11 a 1.24</p>
+          <p class="eyebrow" data-reveal="1">S00-M02 · Quatro perguntas</p>
+          <h1 class="deck-title" data-reveal="1">Um casco, quatro modos de olhar</h1>
+          <p class="lead claim" data-claim-id="CLM-S00-M02-010" data-reveal="2">Antes do nome, descubra a relação: o corpo inteiro, a posição diante de um plano, uma região do contorno ou a proximidade com uma extremidade.</p>
+          <div class="technical-card" data-reveal="3"><strong>Estratégia da aula:</strong> primeiro a pergunta espacial; depois o termo técnico.</div>
+          <p class="source-line" data-reveal="4">Lição: situação concreta, modelo mental e objetivo · Arte Naval, arts. 1.2 a 1.24</p>
         </div>
-        <div class="stage" data-reveal="2" role="img" aria-label="Dois cartões mostram o mesmo casco em perfil e em vista superior; cada vista responde a uma pergunta espacial diferente.">
-          <svg viewBox="0 0 640 400">
-            <g id="introProfile">
-              <use href="#sideHull" x="76" y="40" width="488" height="230"></use>
-              <line x1="70" y1="204" x2="578" y2="204" class="guide"></line>
-              <text x="320" y="312" text-anchor="middle" class="callout">PERFIL · acima ou abaixo?</text>
-            </g>
-            <g id="introTop" opacity="0">
-              <use href="#topHullM02" x="76" y="40" width="488" height="230"></use>
-              <line x1="540" y1="164" x2="596" y2="164" stroke="#40e0ee" stroke-width="4" marker-end="url(#arrowForward)"></line>
-              <text x="320" y="312" text-anchor="middle" class="callout">VISTA SUPERIOR · proa ou popa?</text>
-            </g>
-          </svg>
+        <div class="stage photo-stage" data-reveal="2" role="img" aria-label="Navio mercante completo visto de perfil. Quatro lentes indicam as perguntas corpo inteiro, plano, contorno e extremidade.">
+          <img class="ship-photo" src="assets/ship-profile-v2.png" alt="Navio mercante moderno visto de perfil, com casco completo, arranjos superiores e proa claramente reconhecíveis.">
+          <div class="lens-rail" aria-hidden="true">
+            <span class="lens-chip active">TODO</span><span class="lens-chip">PLANO</span><span class="lens-chip">CONTORNO</span><span class="lens-chip">EXTREMIDADE</span>
+          </div>
         </div>
       </div>
     </section>
@@ -148,21 +172,17 @@
       <div class="content grid-2">
         <div>
           <p class="eyebrow" data-reveal="1">Objeto-base</p>
-          <h2 data-reveal="1">Comece pelo casco</h2>
+          <h2 data-reveal="1">Retire os arranjos: o corpo permanece</h2>
           <p class="lead claim" data-claim-id="CLM-S00-M02-001" data-reveal="2">Casco é o corpo do navio sem considerar mastreação, aparelhos acessórios ou outros arranjos.</p>
-          <div class="technical-card" style="--tone:var(--stripe)" data-reveal="3"><strong>Incluído:</strong> corpo do navio.<br><strong>Fora da definição-base:</strong> arranjos representados acima dele.</div>
+          <div class="button-row" data-reveal="3"><button class="action" id="toggleHull" type="button">Mostrar navio completo</button></div>
+          <p class="feedback" id="hullFeedback" aria-live="polite">O contorno ciano acompanha o volume do casco.</p>
           <p class="source-line" data-reveal="4">Lição: vocabulário mínimo · Arte Naval, art. 1.2</p>
         </div>
-        <div class="stage" data-reveal="2" role="img" aria-label="Perfil do casco destacado; mastros e acessórios aparecem esmaecidos para mostrar que não entram na definição-base.">
-          <svg viewBox="0 0 640 400">
-            <use href="#sideHull" x="72" y="88" width="500" height="234"></use>
-            <g opacity=".24" stroke="#d5e6ed" stroke-width="5" fill="none">
-              <line x1="300" y1="146" x2="300" y2="66"></line><line x1="300" y1="82" x2="370" y2="118"></line>
-              <rect x="392" y="108" width="78" height="42" rx="8"></rect>
-            </g>
-            <path d="M258 46 L492 164" stroke="#fb7185" stroke-width="4" stroke-dasharray="10 8"></path>
-            <text x="320" y="348" text-anchor="middle" class="callout">CASCO · o corpo destacado</text>
-          </svg>
+        <div class="stage photo-stage" id="hullPhotoStage" data-reveal="2" role="img" aria-label="O navio real aparece com os arranjos superiores atenuados e o volume inteiro do casco contornado em ciano.">
+          <img class="ship-photo" src="assets/ship-profile-v2.png" alt="Navio mercante visto de perfil para identificação do corpo do casco.">
+          <div class="photo-accessories" aria-hidden="true"></div>
+          <div class="photo-callout hull-volume" aria-hidden="true"></div>
+          <span class="photo-label">CASCO · CORPO CONTÍNUO</span>
         </div>
       </div>
     </section>
@@ -226,18 +246,25 @@
           <h2 data-reveal="1">Costado e fundo usam limites diferentes</h2>
           <p class="claim" data-claim-id="CLM-S00-M02-005" data-reveal="2"><strong style="color:var(--costado)">Costado:</strong> invólucro exterior do casco acima da linha-d'água.</p>
           <p class="claim" data-claim-id="CLM-S00-M02-006" data-reveal="2"><strong style="color:#7fb7df">Fundo:</strong> parte inferior do casco, da quilha ao bojo.</p>
-          <div class="technical-card" data-reveal="3">A relação com a água e a região geométrica do casco não são a mesma classificação.</div>
+          <div class="button-row" data-select-group id="contourFocus" data-reveal="3" role="group" aria-label="Escolha de contorno">
+            <button class="action active" type="button" data-value="costado">Seguir o costado</button>
+            <button class="action" type="button" data-value="fundo">Seguir o fundo</button>
+          </div>
+          <p class="feedback" id="contourFeedback" aria-live="polite">Costado: acompanhe os dois lados do corte acima da faixa.</p>
           <p class="source-line" data-reveal="4">Lição: costado e fundo · Arte Naval, arts. 1.14 e 1.16</p>
         </div>
-        <div class="stage" data-reveal="2" role="img" aria-label="Corte transversal esquemático; chaves âmbar marcam os costados laterais e arco azul marca o fundo entre quilha e bojo.">
+        <div class="stage" id="contourStage" data-reveal="2" role="img" aria-label="Corte transversal reconhecível de meia-nau; laterais âmbar são os costados e arco azul marca o fundo entre quilha e bojos.">
           <svg viewBox="0 0 640 400">
-            <path d="M150 92 L180 264 Q320 346 460 264 L490 92" fill="#132a37" stroke="#a8c8d7" stroke-width="5"></path>
+            <path d="M142 82 H498 L470 262 Q320 354 170 262 Z" fill="#132a37" stroke="#a8c8d7" stroke-width="5"></path>
+            <line x1="142" y1="82" x2="498" y2="82" stroke="#a8c8d7" stroke-width="5"></line>
+            <path d="M188 112 H452 L432 246 Q320 306 208 246 Z" fill="none" stroke="#56717f" stroke-width="3"></path>
+            <line x1="320" y1="82" x2="320" y2="332" stroke="#56717f" stroke-width="2" stroke-dasharray="7 8"></line>
             <line x1="126" y1="202" x2="514" y2="202" class="water-stripe"></line>
-            <path d="M178 198 L166 112 M462 198 L474 112" fill="none" stroke="#f6a84b" stroke-width="10" stroke-linecap="round"></path>
-            <path d="M182 268 Q320 340 458 268" fill="none" stroke="#5ba0d0" stroke-width="12" stroke-linecap="round"></path>
+            <g id="costadoShape" class="focus-shape active" style="color:var(--costado)"><path d="M174 198 L158 102 M466 198 L482 102" fill="none" stroke="#f6a84b" stroke-width="11" stroke-linecap="round"></path></g>
+            <g id="bottomShape" class="focus-shape" style="color:#5ba0d0"><path d="M172 266 Q320 354 468 266" fill="none" stroke="#5ba0d0" stroke-width="12" stroke-linecap="round"></path></g>
             <circle cx="320" cy="332" r="7" fill="#e9f2f6"></circle>
-            <text x="110" y="138" class="callout" fill="#f6a84b">COSTADO</text>
-            <text x="320" y="374" text-anchor="middle" class="callout" fill="#7fb7df">FUNDO · QUILHA AO BOJO</text>
+            <text x="92" y="132" class="callout small" fill="#f6a84b">COSTADO</text>
+            <text x="320" y="376" text-anchor="middle" class="callout small" fill="#7fb7df">FUNDO · QUILHA → BOJOS</text>
           </svg>
         </div>
       </div>
@@ -304,18 +331,30 @@
     <section class="slide" id="slide-8" data-slide-id="SLIDE-S00-M02-08" data-source-refs="DPC-ARTE-NAVAL-CAP1-2005#arts-1.11-1.24">
       <div class="content">
         <p class="eyebrow" data-reveal="1">Procedimento de decisão</p>
-        <h2 data-reveal="1">Escolha a vista antes de escolher o rótulo</h2>
-        <p class="lead claim" data-claim-id="CLM-S00-M02-010" data-reveal="2">Perfil para relação com a água; vista superior para proximidade com proa ou popa.</p>
-        <p class="rule claim" data-claim-id="CLM-S00-M02-009" data-reveal="2">No perfil, confirme ainda se o alvo é uma região ou a faixa pintada.</p>
-        <div class="decision" data-reveal="3">
-          <div class="technical-card view-tab" style="--tone:var(--live)"><strong>Perfil</strong><br>Obras-vivas · obras-mortas · linha-d'água · costado · fundo</div>
-          <span class="arrow" aria-hidden="true">↔</span>
-          <div class="technical-card view-tab" style="--tone:var(--cheek)"><strong>Vista superior</strong><br>Bochechas junto à proa · alhetas junto à popa</div>
-        </div>
-        <div data-question data-reveal="4">
-          <p><strong>Para localizar bochechas, qual vista ajuda diretamente?</strong></p>
-          <div class="button-row"><button class="action" type="button" data-choice="wrong" data-message="O perfil ajuda na relação vertical. Para proximidade com proa e popa, prefira a vista superior.">Perfil</button><button class="action" type="button" data-choice="correct" data-message="Correto. A vista superior deixa visível a proximidade das curvas com proa e popa.">Vista superior</button></div>
-          <p class="feedback" data-feedback>Escolha a vista antes de procurar o nome.</p>
+        <h2 data-reveal="1">A pergunta certa reduz as opções</h2>
+        <p class="lead claim" data-claim-id="CLM-S00-M02-010" data-reveal="2">Todo, plano, contorno ou extremidade: escolha a relação antes de recuperar o nome.</p>
+        <p class="sr-only claim" data-claim-id="CLM-S00-M02-009">A faixa pintada e o plano de plena carga são referências distintas.</p>
+        <div class="lens-layout" data-reveal="3">
+          <div class="stage" role="img" aria-label="Navio central com quatro lentes ao redor: corpo inteiro, plano de plena carga, contorno e extremidade.">
+            <svg viewBox="0 0 640 400">
+              <use href="#sideHull" x="112" y="96" width="416" height="196"></use>
+              <circle cx="320" cy="198" r="150" fill="none" stroke="#35505f" stroke-width="2" stroke-dasharray="5 9"></circle>
+              <line x1="92" y1="70" x2="180" y2="140" class="guide"></line><text x="54" y="54" class="callout small">TODO</text>
+              <line x1="548" y1="70" x2="470" y2="148" class="guide"></line><text x="520" y="54" class="callout small">PLANO</text>
+              <line x1="92" y1="338" x2="190" y2="268" class="guide"></line><text x="32" y="360" class="callout small">CONTORNO</text>
+              <line x1="548" y1="338" x2="486" y2="260" class="guide"></line><text x="490" y="360" class="callout small">EXTREMIDADE</text>
+              <line x1="118" y1="214" x2="526" y2="214" class="load-plane"></line>
+            </svg>
+          </div>
+          <div>
+            <div class="lens-menu" data-select-group id="decisionLens" role="group" aria-label="Escolher pergunta espacial">
+              <button class="action active" type="button" data-value="todo">Todo — que corpo é este?</button>
+              <button class="action" type="button" data-value="plano">Plano — acima ou abaixo?</button>
+              <button class="action" type="button" data-value="contorno">Contorno — lado ou base?</button>
+              <button class="action" type="button" data-value="extremidade">Extremidade — proa ou popa?</button>
+            </div>
+            <div class="technical-card lens-answer" id="lensAnswer" aria-live="polite"><div><strong>Casco</strong>O corpo inteiro do navio.</div></div>
+          </div>
         </div>
         <p class="source-line" data-reveal="4">Lição: modelo mental e mecanismo · Arte Naval, arts. 1.11 a 1.24</p>
       </div>
@@ -354,21 +393,40 @@
     <section class="slide" id="slide-10" data-slide-id="SLIDE-S00-M02-10" data-source-refs="DPC-ARTE-NAVAL-CAP1-2005#arts-1.2-1.24">
       <div class="content">
         <p class="eyebrow" data-reveal="1">Síntese e aplicação independente</p>
-        <h2 data-reveal="1">Reconstrua as relações, não a posição das cores</h2>
-        <p class="lead claim" data-claim-id="CLM-S00-M02-010" data-reveal="2">Em figura inédita, escolha a vista adequada e depois aplique cada referência.</p>
-        <div class="label-grid" data-reveal="3" aria-label="Oito termos da aula">
-          <span class="label-chip claim" data-claim-id="CLM-S00-M02-001">Casco</span>
-          <span class="label-chip claim" data-claim-id="CLM-S00-M02-002">Obras-vivas</span>
-          <span class="label-chip claim" data-claim-id="CLM-S00-M02-003">Obras-mortas</span>
-          <span class="label-chip claim" data-claim-id="CLM-S00-M02-004">Linha-d'água</span>
-          <span class="label-chip claim" data-claim-id="CLM-S00-M02-005">Costado</span>
-          <span class="label-chip claim" data-claim-id="CLM-S00-M02-006">Fundo</span>
-          <span class="label-chip claim" data-claim-id="CLM-S00-M02-007">Bochechas</span>
-          <span class="label-chip claim" data-claim-id="CLM-S00-M02-008">Alhetas</span>
+        <h2 data-reveal="1">Oito termos cabem em quatro relações</h2>
+        <p class="lead claim" data-claim-id="CLM-S00-M02-010" data-reveal="2">Recupere a pergunta espacial antes de recuperar o nome.</p>
+        <div class="stage map-stage" id="finalMap" data-reveal="3" role="img" aria-label="Mapa integrado com perfil, corte transversal e vista superior. Cada termo aponta diretamente para sua região no casco.">
+          <svg viewBox="0 0 640 500">
+            <text x="22" y="30" class="map-label group">TODO E PLANO · PERFIL</text>
+            <path d="M74 70 H400 Q456 72 500 110 L478 192 Q442 222 170 224 Q104 222 86 190 Z" class="ship-shell"></path>
+            <line x1="66" y1="152" x2="514" y2="152" class="load-plane"></line>
+            <line x1="98" y1="176" x2="480" y2="176" class="water-stripe"></line>
+            <rect x="100" y="84" width="376" height="66" fill="url(#dotHatch)" opacity=".62" clip-path="url(#finalProfileClip)"></rect>
+            <rect x="100" y="154" width="376" height="64" fill="url(#waveHatch)" opacity=".76" clip-path="url(#finalProfileClip)"></rect>
+            <defs><clipPath id="finalProfileClip"><path d="M74 70 H400 Q456 72 500 110 L478 192 Q442 222 170 224 Q104 222 86 190 Z"></path></clipPath></defs>
+            <g class="label-guide"><line x1="160" y1="70" x2="134" y2="48" class="guide"></line><text x="78" y="48" class="map-label term claim" data-claim-id="CLM-S00-M02-001">CASCO</text></g>
+            <g class="label-guide"><line x1="326" y1="112" x2="548" y2="82" class="guide"></line><text x="514" y="76" class="map-label term claim" data-claim-id="CLM-S00-M02-003">MORTAS</text></g>
+            <g class="label-guide"><line x1="326" y1="198" x2="548" y2="216" class="guide"></line><text x="514" y="236" class="map-label term claim" data-claim-id="CLM-S00-M02-002">VIVAS</text></g>
+            <g class="label-guide"><line x1="458" y1="176" x2="548" y2="164" class="guide"></line><text x="512" y="158" class="map-label term claim" data-claim-id="CLM-S00-M02-004">LINHA-D'ÁGUA</text></g>
+
+            <text x="22" y="282" class="map-label group">CONTORNO · CORTE</text>
+            <path d="M72 304 H250 L236 420 Q162 466 88 420 Z" fill="#132a37" stroke="#a8c8d7" stroke-width="4"></path>
+            <path d="M90 398 Q162 450 234 398" fill="none" stroke="#5ba0d0" stroke-width="9"></path>
+            <path d="M88 390 L78 320 M236 390 L244 320" fill="none" stroke="#f6a84b" stroke-width="9"></path>
+            <g class="label-guide"><line x1="80" y1="348" x2="28" y2="340" class="guide"></line><text x="20" y="330" class="map-label term claim" data-claim-id="CLM-S00-M02-005">COSTADO</text></g>
+            <g class="label-guide"><line x1="162" y1="444" x2="162" y2="476" class="guide"></line><text x="138" y="492" class="map-label term claim" data-claim-id="CLM-S00-M02-006">FUNDO</text></g>
+
+            <text x="326" y="282" class="map-label group">EXTREMIDADE · VISTA SUPERIOR</text>
+            <path d="M352 320 H520 Q572 320 616 390 Q572 460 520 460 H352 Q336 460 330 446 V334 Q336 320 352 320 Z" class="ship-shell"></path>
+            <path d="M534 330 Q582 342 612 390 Q582 366 540 365" fill="none" stroke="#fb7185" stroke-width="11" stroke-linecap="round"></path>
+            <path d="M540 415 Q582 414 612 390 Q582 438 534 450" fill="none" stroke="#fb7185" stroke-width="11" stroke-linecap="round"></path>
+            <path d="M342 334 Q370 326 394 340 M342 446 Q370 454 394 440" fill="none" stroke="#b792ff" stroke-width="11" stroke-linecap="round"></path>
+            <g class="label-guide"><line x1="580" y1="342" x2="574" y2="306" class="guide"></line><text x="524" y="304" class="map-label term claim" data-claim-id="CLM-S00-M02-007">BOCHECHAS</text></g>
+            <g class="label-guide"><line x1="366" y1="442" x2="344" y2="478" class="guide"></line><text x="326" y="494" class="map-label term claim" data-claim-id="CLM-S00-M02-008">ALHETAS</text></g>
+          </svg>
         </div>
-        <div class="button-row" data-reveal="4"><button class="action" type="button" data-says="Perfil: relação vertical e faixa. Vista superior: bochechas junto à proa e alhetas junto à popa. O deck não registra resultado." data-says-target="#finalM02Feedback">Revelar síntese</button></div>
-        <p class="feedback" id="finalM02Feedback" aria-live="polite">Na sessão real, responda sem pista e declare sua confiança antes do feedback.</p>
-        <p class="fine-note" data-reveal="4">Retenção: nova checagem após pelo menos três dias, em representação visual diferente. Nenhum resultado foi preenchido.</p>
+        <div class="button-row" data-reveal="4"><button class="action" id="toggleFinalLabels" type="button">Ocultar rótulos para recordar</button></div>
+        <p class="feedback" id="finalM02Feedback" aria-live="polite">Observe primeiro a pergunta escrita sobre cada vista.</p>
         <p class="source-line" data-reveal="4">Lição: aplicação independente, resumo e domínio · Arte Naval, arts. 1.2, 1.11 a 1.14, 1.16, 1.19 e 1.24</p>
       </div>
     </section>
@@ -381,13 +439,13 @@
   <script>
     lucide.createIcons();
 
-    document.getElementById("viewIntro").addEventListener("ysd:select", function (event) {
-      var profile = event.detail.value === "profile";
-      document.getElementById("introProfile").setAttribute("opacity", profile ? "1" : "0");
-      document.getElementById("introTop").setAttribute("opacity", profile ? "0" : "1");
-      document.getElementById("viewIntroFeedback").textContent = profile
-        ? "O perfil ajuda a comparar altura em relação à água."
-        : "A vista superior ajuda a comparar proximidade com proa e popa.";
+    document.getElementById("toggleHull").addEventListener("click", function () {
+      var stage = document.getElementById("hullPhotoStage");
+      var complete = stage.classList.toggle("complete");
+      this.textContent = complete ? "Destacar somente o casco" : "Mostrar navio completo";
+      document.getElementById("hullFeedback").textContent = complete
+        ? "Navio completo: o casco sustenta os arranjos que aparecem acima dele."
+        : "Casco destacado: o corpo contínuo permanece quando os arranjos são desconsiderados.";
     });
 
     document.getElementById("separateLayers").addEventListener("click", function () {
@@ -407,6 +465,15 @@
       document.getElementById("referenceFeedback").textContent = "Linha branca tracejada: plano de plena carga usado para separar as obras.";
     });
 
+    document.getElementById("contourFocus").addEventListener("ysd:select", function (event) {
+      var costado = event.detail.value === "costado";
+      document.getElementById("costadoShape").classList.toggle("active", costado);
+      document.getElementById("bottomShape").classList.toggle("active", !costado);
+      document.getElementById("contourFeedback").textContent = costado
+        ? "Costado: acompanhe os dois lados do corte acima da faixa."
+        : "Fundo: siga o arco inferior, da quilha aos dois bojos.";
+    });
+
     document.getElementById("showCheeks").addEventListener("click", function () {
       document.getElementById("cheekTop").classList.remove("hidden-label");
       document.getElementById("cheekFeedback").textContent = "As duas curvas junto à proa formam o par de bochechas.";
@@ -419,9 +486,29 @@
       document.getElementById("endFeedback").textContent = forward ? "Junto à proa: bochechas." : "Junto à popa: alhetas.";
     });
 
+    document.getElementById("decisionLens").addEventListener("ysd:select", function (event) {
+      var answers = {
+        todo: ["Casco", "O corpo inteiro do navio."],
+        plano: ["Obras-vivas · obras-mortas", "Abaixo ou acima do plano de plena carga."],
+        contorno: ["Costado · fundo", "Lados do invólucro ou base da quilha aos bojos."],
+        extremidade: ["Bochechas · alhetas", "Curvas junto à proa ou junto à popa."]
+      };
+      var answer = answers[event.detail.value];
+      document.getElementById("lensAnswer").innerHTML = "<div><strong>" + answer[0] + "</strong>" + answer[1] + "</div>";
+    });
+
     document.getElementById("guidedHint").addEventListener("click", function () {
       document.querySelector("#guidedM02Stage .maybe-plane").setAttribute("opacity", "1");
       document.getElementById("guidedM02Feedback").textContent = "Pista: a linha branca tracejada é o plano de plena carga; compare A e B com ela.";
+    });
+
+    document.getElementById("toggleFinalLabels").addEventListener("click", function () {
+      var map = document.getElementById("finalMap");
+      var hidden = map.classList.toggle("labels-off");
+      this.textContent = hidden ? "Revelar rótulos" : "Ocultar rótulos para recordar";
+      document.getElementById("finalM02Feedback").textContent = hidden
+        ? "Agora reconstrua cada nome pelas quatro perguntas."
+        : "Compare sua reconstrução com as regiões apontadas.";
     });
   </script>
 </body>
