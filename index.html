@@ -9,21 +9,13 @@
   <link rel="icon" href="data:,">
   <link rel="stylesheet" href="assets/theme/ysd-deck.css">
   <style>
-    /* O catálogo reaproveita os tokens do tema; a grade é própria dele. */
     body { display: block; }
     .wrap { width: min(1100px, 100%); margin: 0 auto; padding: clamp(48px, 9vh, 96px) clamp(20px, 5vw, 48px) 96px; }
     header { margin-bottom: clamp(28px, 5vh, 52px); }
     header h1 { font-size: var(--step-4); margin-bottom: 0.3em; }
     header p { color: var(--muted); font-size: var(--step-1); max-width: 60ch; margin: 0; }
-    /* auto-fill, não auto-fit: com uma aula só, o cartão mantém largura de
-       cartão em vez de esticar por toda a página. */
     ul.grid { list-style: none; margin: 0; padding: 0; display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
-    .card a {
-      display: block; height: 100%; padding: clamp(20px, 2.6vw, 30px); border-radius: var(--radius);
-      border: 1px solid var(--glass-line); background: var(--glass); color: inherit; text-decoration: none;
-      backdrop-filter: blur(var(--glass-blur)); -webkit-backdrop-filter: blur(var(--glass-blur));
-      box-shadow: var(--shadow); transition: transform .25s var(--ease), border-color .25s var(--ease);
-    }
+    .card a { display: block; height: 100%; padding: clamp(20px, 2.6vw, 30px); border-radius: var(--radius); border: 1px solid var(--glass-line); background: var(--glass); color: inherit; text-decoration: none; backdrop-filter: blur(var(--glass-blur)); -webkit-backdrop-filter: blur(var(--glass-blur)); box-shadow: var(--shadow); transition: transform .25s var(--ease), border-color .25s var(--ease); }
     .card a:hover { transform: translateY(-4px); border-color: var(--proa); }
     .card h2 { font-size: var(--step-2); margin-bottom: 0.45em; }
     .objectives { margin: 0 0 16px; padding-left: 1.1em; color: var(--muted); font-size: var(--step--1); line-height: 1.5; }
@@ -38,39 +30,13 @@
 <body>
   <div class="backdrop" aria-hidden="true"></div>
   <div class="wrap">
-    <header>
-      <p class="eyebrow">YSD Prático</p>
-      <h1>Aulas publicadas</h1>
-      <p>Material didático derivado das lições canônicas do repositório. Cada tela aponta para a seção da lição e para a fonte oficial que a sustenta.</p>
-    </header>
-
+    <header><p class="eyebrow">YSD Prático</p><h1>Aulas publicadas</h1><p>Material didático derivado das lições canônicas do repositório.</p></header>
     <ul class="grid">
-<li class="card">
-  <a href="S00-M01/">
-    <p class="eyebrow">S00-M01</p>
-    <h2>O navio como referência espacial</h2>
-    <ul class="objectives"><li>Identificar proa, popa, boreste, bombordo e meia-nau em representações simples.</li><li>Manter as referências corretas quando o observador ou o desenho muda de orientação.</li></ul>
-    <p class="meta">10 telas · lição em revisão pedagógica</p>
-    <span class="go">Abrir aula</span>
-  </a>
-</li>
-
-<li class="card">
-  <a href="S00-M02/">
-    <p class="eyebrow">S00-M02</p>
-    <h2>Regiões e partes externas do casco</h2>
-    <ul class="objectives"><li>Reconhecer casco, costado, obras-vivas, obras-mortas, linha-d'água e fundo em um perfil esquemático.</li><li>Localizar bochechas junto à proa e alhetas junto à popa em perfil e vista superior.</li><li>Distinguir o plano que separa obras-vivas e obras-mortas da faixa pintada chamada linha-d'água.</li></ul>
-    <p class="meta">10 telas · lição em revisão pedagógica</p>
-    <span class="go">Abrir aula</span>
-  </a>
-</li>
-
+<li class="card"><a href="S00-M01/"><p class="eyebrow">S00-M01</p><h2>O navio como referência espacial</h2><ul class="objectives"><li>Identificar proa, popa, boreste, bombordo e meia-nau.</li></ul><p class="meta">Aula publicada</p><span class="go">Abrir aula</span></a></li>
+<li class="card"><a href="S00-M02/"><p class="eyebrow">S00-M02</p><h2>Regiões e partes externas do casco</h2><ul class="objectives"><li>Reconhecer as principais regiões externas do casco.</li></ul><p class="meta">Aula publicada</p><span class="go">Abrir aula</span></a></li>
+<li class="card"><a href="S00-M03/"><p class="eyebrow">S00-M03</p><h2>Direções relativas a bordo</h2><ul class="objectives"><li>Interpretar avante, a ré, por ante-a-vante, por ante-a-ré e través.</li><li>Reconhecer amura como direção entre proa e través.</li></ul><p class="meta">Nova aula publicada</p><span class="go">Abrir aula</span></a></li>
     </ul>
-
-    <footer>
-      <p>Site gerado por <code>tools/publish_lessons.rb</code> a partir do repositório privado <code>ysd_pratico</code>. Publica somente conteúdo didático: nenhum dado de desempenho, sessão ou planejamento do aluno é enviado.</p>
-      <p>Atualizado em 2026-08-26T18:14:04Z. Endereço canônico: <code>https://lucaspyoshida.github.io/ysd-pratico-aulas</code>.</p>
-    </footer>
+    <footer><p>Site público contém apenas material didático; dados privados de estudo e questões permanecem no repositório privado.</p><p>Atualizado em 2026-09-09. Endereço canônico: <code>https://lucaspyoshida.github.io/ysd-pratico-aulas</code>.</p></footer>
   </div>
 </body>
 </html>
