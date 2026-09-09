@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 560" role="img" aria-labelledby="t d">
+<title id="t">Direções relativas a bordo</title><desc id="d">Vista superior de um navio com proa à esquerda, popa à direita, avante, a ré, traveses e amuras indicados; bochecha e amura aparecem associadas junto à proa.</desc>
+<defs><marker id="a" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#123"/></marker></defs>
+<rect width="1000" height="560" fill="#fff"/>
+<path d="M110 280 Q175 155 360 140 L760 170 Q855 205 890 280 Q855 355 760 390 L360 420 Q175 405 110 280Z" fill="#e9f3f8" stroke="#123" stroke-width="5"/>
+<line x1="110" y1="280" x2="890" y2="280" stroke="#567" stroke-width="3" stroke-dasharray="10 8"/>
+<text x="72" y="265" font-family="sans-serif" font-size="34" font-weight="700" fill="#123">PROA</text>
+<text x="882" y="265" font-family="sans-serif" font-size="34" font-weight="700" fill="#123">POPA</text>
+<line x1="500" y1="280" x2="500" y2="75" stroke="#1976a2" stroke-width="5" marker-end="url(#a)"/>
+<line x1="500" y1="280" x2="500" y2="485" stroke="#1976a2" stroke-width="5" marker-end="url(#a)"/>
+<text x="520" y="100" font-family="sans-serif" font-size="32" fill="#123">TRAVÉS DE BE</text>
+<text x="520" y="510" font-family="sans-serif" font-size="32" fill="#123">TRAVÉS DE BB</text>
+<line x1="380" y1="220" x2="215" y2="120" stroke="#b85c00" stroke-width="7" marker-end="url(#a)"/>
+<line x1="380" y1="340" x2="215" y2="440" stroke="#b85c00" stroke-width="7" marker-end="url(#a)"/>
+<text x="155" y="92" font-family="sans-serif" font-size="32" font-weight="700" fill="#8a4300">AMURA DE BE</text>
+<text x="155" y="478" font-family="sans-serif" font-size="32" font-weight="700" fill="#8a4300">AMURA DE BB</text>
+<line x1="345" y1="280" x2="150" y2="280" stroke="#167d3b" stroke-width="7" marker-end="url(#a)"/>
+<line x1="655" y1="280" x2="850" y2="280" stroke="#7b2f98" stroke-width="7" marker-end="url(#a)"/>
+<text x="145" y="325" font-family="sans-serif" font-size="32" font-weight="700" fill="#167d3b">AVANTE</text>
+<text x="770" y="325" font-family="sans-serif" font-size="32" font-weight="700" fill="#7b2f98">A RÉ</text>
+<text x="300" y="185" font-family="sans-serif" font-size="28" font-weight="600" fill="#8a4300">bochecha / amura</text>
+<text x="300" y="400" font-family="sans-serif" font-size="28" font-weight="600" fill="#8a4300">bochecha / amura</text>
+</svg>
