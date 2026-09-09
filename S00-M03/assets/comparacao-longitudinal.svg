@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 360" role="img" aria-labelledby="t d">
+<title id="t">Comparação longitudinal</title><desc id="d">Dois objetos no eixo longitudinal; A está mais para a proa que B.</desc>
+<rect width="1000" height="360" fill="#fff"/>
+<path d="M90 180 Q150 70 320 65 L790 95 Q875 125 910 180 Q875 235 790 265 L320 295 Q150 290 90 180Z" fill="#eef5f8" stroke="#123" stroke-width="5"/>
+<line x1="115" y1="180" x2="885" y2="180" stroke="#567" stroke-width="3" stroke-dasharray="10 8"/>
+<text x="48" y="168" font-family="sans-serif" font-size="34" font-weight="700" fill="#123">PROA</text>
+<text x="895" y="168" font-family="sans-serif" font-size="34" font-weight="700" fill="#123">POPA</text>
+<circle cx="330" cy="180" r="40" fill="#1976a2"/><text x="316" y="193" font-family="sans-serif" font-size="38" font-weight="700" fill="#fff">A</text>
+<circle cx="650" cy="180" r="40" fill="#b85c00"/><text x="636" y="193" font-family="sans-serif" font-size="38" font-weight="700" fill="#fff">B</text>
+<defs><marker id="x" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#1976a2"/></marker></defs>
+<line x1="620" y1="115" x2="360" y2="115" stroke="#1976a2" stroke-width="6" marker-end="url(#x)"/>
+<text x="365" y="85" font-family="sans-serif" font-size="30" font-weight="600" fill="#123">A está por ante-a-vante de B</text>
+</svg>
