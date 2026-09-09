@@ -4,16 +4,47 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>S00-M03 | Direções relativas a bordo</title>
 <style>
-body{font-family:system-ui,-apple-system,sans-serif;background:#071019;color:#eef5f8;margin:0;line-height:1.55}main{max-width:880px;margin:auto;padding:40px 22px 72px}a{color:#67d8ff}h1,h2{line-height:1.15}.card{background:#10212d;border:1px solid #294657;border-radius:16px;padding:18px;margin:16px 0}.axis{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center;text-align:center;margin:24px 0}.axis b{padding:18px;border-radius:14px;background:#10212d}.arrow{font-size:2rem;color:#67d8ff}.note{color:#b7c9d2}.back{display:inline-block;margin-bottom:24px}</style>
-</head>
-<body><main>
-<a class="back" href="../">← Voltar ao catálogo</a>
-<p>S00-M03</p><h1>Direções relativas a bordo</h1>
-<p class="note">Use sempre o próprio navio como referência. A orientação da tela ou do desenho não muda os termos.</p>
-<div class="axis"><b>A RÉ<br><small>referência para a popa</small></b><span class="arrow">↔</span><b>AVANTE<br><small>referência para a proa</small></b></div>
-<div class="card"><h2>Comparando dois objetos</h2><p>Se um objeto está mais para a proa do que outro, ele está <strong>por ante-a-vante</strong>. Se está mais para a popa, está <strong>por ante-a-ré</strong>.</p></div>
-<div class="card"><h2>Través</h2><p><strong>Través</strong> é a direção normal ao plano longitudinal do navio. Em vista superior, pense em uma direção lateral a 90° do eixo proa–popa.</p></div>
-<div class="card"><h2>Amura como direção</h2><p><strong>Amura</strong> também pode designar uma direção situada entre a proa e o través.</p></div>
-<div class="card"><h2>Modelo mental</h2><ol><li>Identifique a proa.</li><li>Trace mentalmente o eixo proa–popa.</li><li>Decida se a relação é longitudinal ou lateral.</li><li>Se comparar objetos, veja qual está mais para a proa ou mais para a popa.</li><li>Perpendicular ao eixo: través.</li><li>Entre proa e través: setor de amura.</li></ol></div>
-<p class="note">Fonte: Diretoria de Portos e Costas, Arte Naval, Capítulo 1, arts. 1.8 e 1.20. Nesta aula não entram rumo verdadeiro, marcação verdadeira ou conversões angulares.</p>
+/* @MIRA:RESPONSIVE:START */
+:root{--bg:#071019;--panel:#10212d;--line:#294657;--text:#eef5f8;--muted:#b7c9d2;--accent:#67d8ff}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text)}
+main{max-width:1060px;margin:auto;padding:28px 18px 70px}.slide{min-height:72vh;padding:26px;margin:18px 0;border:1px solid var(--line);border-radius:20px;background:var(--panel);display:grid;align-content:center;gap:18px}
+h1,h2{line-height:1.1;margin:0}.eyebrow{color:var(--accent);font-weight:700}.muted{color:var(--muted)}
+.figure{background:#fff;border-radius:16px;padding:12px}.figure img{display:block;width:100%;height:auto}.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.box{padding:18px;border:1px solid var(--line);border-radius:14px}
+.callout{border-left:4px solid var(--accent);padding:12px 16px;background:rgba(103,216,255,.08);border-radius:8px}
+@media(max-width:640px){.slide{min-height:auto;padding:20px}.grid{grid-template-columns:1fr}}
+/* @MIRA:RESPONSIVE:END */
+</style>
+</head><body><main>
+<section class="slide" data-slide-id="SLIDE-S00-M03-01">
+<p class="eyebrow">S00-M03</p><h1>Direções relativas a bordo</h1>
+<p data-claim-id="CLM-S00-M03-001">A referência é sempre o próprio navio: <strong>avante</strong> aponta para a proa e <strong>a ré</strong> aponta para a popa.</p>
+<div class="figure"><img src="assets/navio-direcoes.svg" alt="Vista superior de um navio com proa, popa, avante, a ré, traveses, amuras e alhetas indicados."></div>
+</section>
+<section class="slide" data-slide-id="SLIDE-S00-M03-02">
+<h2>O mesmo mapa explica quase tudo</h2>
+<div class="figure"><img src="assets/navio-direcoes.svg" alt="Mapa visual das direções relativas a bordo."></div>
+<p data-claim-id="CLM-S00-M03-003">O <strong>través</strong> é perpendicular ao plano longitudinal do navio: há través de boreste e de bombordo.</p>
+</section>
+<section class="slide" data-slide-id="SLIDE-S00-M03-03">
+<h2>Amura: região e direção</h2>
+<div class="grid"><div class="box"><strong>Como parte do casco</strong><p>Amura é o mesmo que <strong>bochecha</strong>: a região curva do costado próxima à proa.</p></div><div class="box"><strong>Como direção</strong><p>Também significa qualquer direção entre a <strong>proa</strong> e o <strong>través</strong>.</p></div></div>
+<div class="figure"><img src="assets/navio-direcoes.svg" alt="Navio visto de cima com as duas amuras destacadas entre a proa e os traveses."></div>
+<p data-claim-id="CLM-S00-M03-004">A fonte usa <strong>amura</strong> nesses dois sentidos relacionados.</p>
+</section>
+<section class="slide" data-slide-id="SLIDE-S00-M03-04">
+<h2>Por ante-a-vante × por ante-a-ré</h2>
+<div class="figure"><img src="assets/comparacao-longitudinal.svg" alt="Dois objetos A e B sobre o eixo longitudinal do navio; A está mais próximo da proa que B."></div>
+<p data-claim-id="CLM-S00-M03-002">Se A está mais para a proa que B, A está <strong>por ante-a-vante</strong> de B. Se está mais para a popa, está <strong>por ante-a-ré</strong>.</p>
+</section>
+<section class="slide" data-slide-id="SLIDE-S00-M03-05">
+<h2>Como raciocinar</h2>
+<div class="grid"><div class="box">1. Ache a <strong>proa</strong>.</div><div class="box">2. Trace o eixo <strong>proa–popa</strong>.</div><div class="box">3. Para lateral a 90°, pense em <strong>través</strong>.</div><div class="box">4. Entre proa e través, pense em <strong>amura</strong>.</div></div>
+<p class="callout" data-claim-id="CLM-S00-M03-005">A orientação da página não muda os conceitos; quem manda é o eixo do navio.</p>
+</section>
+<section class="slide" data-slide-id="SLIDE-S00-M03-06">
+<h2>Resumo visual</h2>
+<div class="figure"><img src="assets/navio-direcoes.svg" alt="Síntese visual das direções relativas do navio."></div>
+<p data-claim-id="CLM-S00-M03-006">Primeiro identifique a referência espacial; depois escolha o termo relativo correto.</p>
+<p class="muted">Fonte: DPC, Arte Naval, Cap. 1, arts. 1.8 e 1.20.</p>
+</section>
 </main></body></html>
